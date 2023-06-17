@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css"/>
     <title>Document</title>
     <script src="js/MovieClient.js"></script>
     <script src="js/movieEventHandler.js"></script>
@@ -11,26 +12,21 @@
 <body>
     <header>
         <nav>
-           <p><a href="#">CI Moviez</a></p>
+           <h1><a href="#">CI Moviez</a></h1></p>
         </nav>
-        <div>
+        <form id="search_form">
             <input id="search_box" type="search" name="searchbox" placeholder="search movie">
-            <button id="search_btn">search</button>
-        </div>
+            <button id="search_btn" type="submit">search</button>
+        </form>
     </header>
+    <h2 class="hero">Welcome to CI Movies</h2>
     <article id="movies_container">  
-        <!-- <figure> -->
-            <!-- <img id="poster_img" src="" alt="movie illustration"/> -->
-            <!-- <figcaption>
-                <p>
-                    <strong>Title</strong>: <span id="title_span"></span>
-                </p>
-                <p>
-                    <strong>Released year</strong>: <span id="year_span"></span>
-                </p>
-                    <button id="details_btn">view more details</button>
-            </figcaption> -->
-        <!-- </figure> -->
     </article>
 </body>
+<footer class="footer">
+    <p>
+        <span class="nowrap">Copyright &copy;</span>
+        <span class="nowrap">Carrot Institute</span><p>
+    </p>
+</footer>
 </html>
