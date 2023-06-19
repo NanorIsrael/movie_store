@@ -235,7 +235,9 @@ header h1 a {
     .header__links {
           display: block;
     }
-
+    #movies_search_container img {
+        max-height: 500px;
+    }
     #movies_container img, #movies_search_container img, #movies_search_container figcaption button, #load_more {
         max-width: 500px;
     }
