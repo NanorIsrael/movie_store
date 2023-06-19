@@ -93,15 +93,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
     const moviesContainer = document.getElementById("movies_container");
     const searchBox = document.getElementById("search_box");
-    const searchBtn = document.getElementById("search_btn");
     const searchForm = document.getElementById("search_form");
+    const loadMore = document.getElementById("load_more");
+
     
-    sampleResp.forEach(movie => {
-        const {figure} = updateMoviesContainer(movie)
-        moviesContainer.append(figure);
-    });
-    
-    searchBox.addEventListener('input', handleInputChange)
+    handleLoadMore(moviesContainer);
+    loadMore.addEventListener('click', () => handleLoadMore(moviesContainer));
+    searchBox.addEventListener('input', handleInputChange);
    
     searchForm.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -112,9 +110,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 let searchItem = ''
 function handleInputChange(event) {
     searchItem = event.target.value;
-}
-function handleMovieSubmit(event) {
-
 }
 
 function updateMoviesContainer(movie) {
@@ -133,6 +128,7 @@ function updateMoviesContainer(movie) {
     figcaption.appendChild(year);
     figure.appendChild(img);
     figure.appendChild(figcaption);
+    document.querySelector('#load_more').hidden = true;
 
     return {
         figure, 
@@ -141,7 +137,6 @@ function updateMoviesContainer(movie) {
 }
 
 function searchMovie(moviesContainer) {
-    console.log(searchItem)
     if (searchItem != '') {
         let message = '';
         try {
@@ -171,23 +166,69 @@ function searchMovie(moviesContainer) {
         }
     }
 }
+function getAllhMovie(pageNumber = 1, moviesContainer) {
+        try {
+            window.client.getAllMovies(pageNumber, (error, response) => {
+                if (error) {
+                  console.error(error);
+                  message = "Oops! Something went wrong.<br />This page didn't load correctly. Please try again later."
+                  moviesContainer.innerHTML = message;
+                } else {  
+                    if (!response) {
+                        message = "<p>Loading...</p>"
+                        moviesContainer.innerHTML = message;
+                    } else {
+                        const movies = JSON.parse(response)
+                        movies.Search.forEach(movie => {
+                            const {figure} = updateMoviesContainer(movie)
+                                moviesContainer.append(figure);
+                        });
+                        document.querySelector('#load_more').hidden = false;
+                    }
+                }
+            })
+        } catch(error) {
+            message = "Oops! Something went wrong.<br />This page didn't load correctly. Please try again later."
+            moviesContainer.innerHTML = message;
+        }
+}
 
 
 function handleView(movie, moviesContainer) {
+    document.querySelector('#load_more').hidden = true;
+    const searchContainer = document.getElementById('movies_search_container'); 
     moviesContainer.innerHTML= "";
+    const hero = document.querySelector('.hero');
+    hero.textContent = "search result: "
+    hero.classList.add('search__result');
     const {figure, figcaption} = updateMoviesContainer(movie)
     const moreButton = document.createElement("button");
     const lessButton = document.createElement("button");
     moreButton.textContent = "view more details";
     lessButton.textContent = "view less details"
     figcaption.appendChild(moreButton);
-    moviesContainer.appendChild(figure);
+    searchContainer.appendChild(figure);
 
     const newfigcaption = document.createElement("figcaption");
     Object.keys(movie).forEach(prop => {
-        const key = document.createElement("h3");
-        key.innerHTML = `<strong>${prop}</strong>: ${movie[prop]}`;
-        newfigcaption.appendChild(key)
+        if (prop !== 'Poster' && prop !== 'Response') {
+            const key = document.createElement("h3");
+            if (prop === 'Ratings') {
+                key.innerHTML = `<strong>${prop}</strong>: 
+                <ul>
+                   ${movie[prop].map(rating => {
+                      return ( `${
+                            Object.keys(rating).map(k => `<li><strong>${k}</strong>: ${rating[k]}</li>`)
+                        }`)
+                    })} 
+                </ul>
+                `
+            } else {
+                key.innerHTML = `<strong>${prop}</strong>: ${movie[prop]}`;
+            }
+            newfigcaption.appendChild(key);
+        }
+    
     })
     newfigcaption.appendChild(lessButton);
     moreButton.addEventListener('click', function(){
@@ -197,4 +238,10 @@ function handleView(movie, moviesContainer) {
         figcaption.appendChild(moreButton);
         figure.replaceChild(figcaption, newfigcaption)
     });
+}
+
+let pageNumber = 1;
+function handleLoadMore(moviesContainer) {
+    getAllhMovie(pageNumber, moviesContainer);
+    pageNumber += 1;
 }

@@ -1,26 +1,16 @@
 const BASEURL = "http://www.omdbapi.com/?apikey=1fc42e86&";
-
+// console.log(process.env)
 class MovieClient {
     constructor() {
         this.baseUrl = BASEURL;
     }
 
-    getAllMovies() {
-        console.log("I have been called")
-            makeAjaxRequest(this.baseUrl + 'i=tt3896198', "GET",  (error, response) => {
-            if (error) {
-              console.error(error);
-            } else {
-              console.log(response);
-            }
-        })
+    getAllMovies(pageNumber, callback) {
+      makeAjaxRequest(this.baseUrl + `&s=movie&page=${pageNumber}`, "GET",  callback);
     }
     getMovieBySearch(title, callback) {
-        console.log("I have been called")
-      makeAjaxRequest(this.baseUrl + `t=${title}`, "GET",  callback)
+      makeAjaxRequest(this.baseUrl + `t=${title}`, "GET",  callback);
     }
-
-    // makeAjaxRequest(url, )
 }
 
 function makeAjaxRequest(url, method, callback) {
