@@ -1,5 +1,4 @@
 const BASEURL = "https://www.omdbapi.com/?apikey=1fc42e86&";
-// console.log(process.env)
 class MovieClient {
     constructor() {
         this.baseUrl = BASEURL;

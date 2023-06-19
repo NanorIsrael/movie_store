@@ -199,10 +199,8 @@ header h1 a {
 
 #search_form {
     display: flex;
-    /* padding: 0 1.5em; */
 }
 #search_box {
-    /* margin-bottom: 5em; */
     padding: 0.5rem;
     border-radius: 15px;
     border-width: 2px;
