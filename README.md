@@ -1,6 +1,6 @@
 # movie_store
 a movie store web app
-- [preview]()
+- [preview](https://nanorisrael.github.io/movie_store/)
 
 # Documentation
 - Only html, css and javascript was used to build this application.
