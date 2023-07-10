@@ -156,7 +156,7 @@ header h1 a {
     bottom: 0;
     background-color: #456B42;
     color: #FFF;
-    padding: var(--PADDING-TB) var(--PADDING-SIDE);
+    padding: 1em 1em;
     text-align: center;
 }
 #movies_container, #movies_search_container {
